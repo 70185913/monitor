@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<style>
+		.chart_container{
+            width: 800px;
+		}
+	</style>
+</head>
+<body>
+<h1>Мониторинг активности пользователей</h1>
+<form action="" method="post">
+	{% csrf_token %}
+	<button type="submit">Загрузить данные</button>
+</form>
+<form action="" method="get">
+	<button type="submit">Получить статистику</button>
+</form>
+<div class="chart_container">
+	<canvas id="myChart"></canvas>
+</div>
+
+<div class="chart_container">
+	<canvas id="myChart2"></canvas>
+</div>
+
+<div class="chart_container">
+	<canvas id="myChart3"></canvas>
+</div>
+
+
+</body>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+
+    const ctx = document.getElementById('myChart');
+    let labels = [
+        {% for i in labels %}
+            "{{ i }}",
+        {% endfor %}
+    ]
+    let values = [
+        {% for i in values %}
+            {{ i }},
+        {% endfor %}
+    ]
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Трафик в ГБ по датам',
+                data: values,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+    const ctx2 = document.getElementById('myChart2');
+    let labels_2 = [
+        {% for i in labels_q2 %}
+            "{{ i }}",
+        {% endfor %}
+    ]
+    let values_2 = [
+        {% for i in values_q2 %}
+            {{ i }},
+        {% endfor %}
+    ]
+    new Chart(ctx2, {
+        type: 'bar',
+        data: {
+            labels: labels_2,
+            datasets: [{
+                label: 'Трафик в ГБ по пользователям',
+                data: values_2,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+     const ctx3 = document.getElementById('myChart3');
+    let labels_3 = [
+        {% for i in labels_q3 %}
+            "{{ i }}",
+        {% endfor %}
+    ]
+    let values_3 = [
+        {% for i in values_q3 %}
+            {{ i }},
+        {% endfor %}
+    ]
+    new Chart(ctx3, {
+        type: 'bar',
+        data: {
+            labels: labels_3,
+            datasets: [{
+                label: 'Трафик в ГБ по системам',
+                data: values_3,
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+
+
+</script>
+</html>
